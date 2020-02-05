@@ -32,11 +32,10 @@ public class Application {
         System.gc();
         runFunctionsCalls();
         System.gc();
-        runBagOfWords();
-        System.gc();
-        runPreviousReleaseNaturalness();
-        System.gc();
-        return runOtherFilesNaturalness();
+        return runBagOfWords();
+        //runPreviousReleaseNaturalness();
+        //System.gc();
+        //return runOtherFilesNaturalness();
     }
 
 

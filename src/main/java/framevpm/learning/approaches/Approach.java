@@ -5,6 +5,10 @@ import framevpm.learning.model.ApproachResult;
 import framevpm.learning.model.Experiment;
 import framevpm.learning.model.ExperimentResult;
 import framevpm.learning.model.classmodel.ClassModel;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import weka.classifiers.Classifier;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -47,7 +51,8 @@ public abstract class Approach {
 
                 classifier.buildClassifier(training);
                 Map<String, ExperimentResult> experimentResultMap = new LinkedHashMap<>();
-                Experiment experimentdata = experiments.get(i[0]);
+                Experiment exp = experiments.get(i[0]);
+                Experiment experimentdata = exp.loadExperiment(exp.getFullFileName());
                 final int[] j = {0};
                 experimentdata.getTesting().keySet().forEach(fileMetaInf -> {
                     if (model.correspondingToTypeFile(fileMetaInf.getType()) != null) {
@@ -74,5 +79,5 @@ public abstract class Approach {
     }
 
     public abstract String getApproachName();
-
+    
 }

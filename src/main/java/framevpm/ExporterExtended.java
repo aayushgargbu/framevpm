@@ -1,6 +1,5 @@
 package framevpm;
 
-
 import data7.Exporter;
 import framevpm.analyze.model.*;
 import framevpm.bugcollector.model.BugDataset;
@@ -13,13 +12,11 @@ import java.io.*;
 import java.util.List;
 import java.util.Map;
 
-
 import static data7.Utils.checkFolderDestination;
 
 public class ExporterExtended extends Exporter {
 
     private final ResourcesPathExtended resourcesPathExtended;
-
 
     public ExporterExtended(ResourcesPathExtended resourcesPathExtended) {
         super(resourcesPathExtended);
@@ -44,16 +41,24 @@ public class ExporterExtended extends Exporter {
             read.close();
             fileIn.close();
             return data;
-        } else return null;
+        } else {
+            return null;
+        }
     }
 
     public void saveProjectData(ProjectData dataset) throws IOException {
-        checkFolderDestination(resourcesPathExtended.getOrganizeData());
-        FileOutputStream fos = new FileOutputStream(new RandomAccessFile(resourcesPathExtended.getOrganizeData() + dataset.getProject() + "-organizedData.obj", "rw").getFD());
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(dataset);
-        oos.close();
-        fos.close();
+        try {
+            checkFolderDestination(resourcesPathExtended.getOrganizeData());
+            FileOutputStream fos = new FileOutputStream(new RandomAccessFile(resourcesPathExtended.getOrganizeData() + dataset.getProject() + "-organizedData.obj", "rw").getFD());
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(dataset);
+            oos.close();
+            fos.close();
+        } catch (Exception ex){
+            System.out.println("Error | framevpm.ExporterExtended.saveProjectData() |");
+            ex.printStackTrace();
+            throw ex;
+        }
     }
 
     public ProjectData loadProjectData(String project) throws IOException, ClassNotFoundException {
@@ -65,7 +70,9 @@ public class ExporterExtended extends Exporter {
             read.close();
             fileIn.close();
             return data;
-        } else return null;
+        } else {
+            return null;
+        }
     }
 
     public void saveProjectAnalysis(ProjectAnalysis dataset) throws IOException {
@@ -87,7 +94,9 @@ public class ExporterExtended extends Exporter {
             read.close();
             fileIn.close();
             return data;
-        } else return null;
+        } else {
+            return null;
+        }
     }
 
     public void saveReleaseAnalysis(ReleaseAnalysis releaseAnalysis, String project) throws IOException {
@@ -109,7 +118,9 @@ public class ExporterExtended extends Exporter {
             read.close();
             fileIn.close();
             return data;
-        } else return null;
+        } else {
+            return null;
+        }
     }
 
     public void saveProjectReleaseAnalysis(ProjectReleaseAnalysed dataset) throws IOException {
@@ -131,7 +142,9 @@ public class ExporterExtended extends Exporter {
             read.close();
             fileIn.close();
             return data;
-        } else return null;
+        } else {
+            return null;
+        }
     }
 
     public void saveProjectVulnData(String project, Map<String, Map<String, VulnerabilityInfo>> projectData) throws IOException {
@@ -153,17 +166,96 @@ public class ExporterExtended extends Exporter {
             read.close();
             fileIn.close();
             return data;
-        } else return null;
+        } else {
+            return null;
+        }
+    }
+
+    public String saveExperiment(String split, String project, Experiment experiment, int counter) throws IOException {
+        try {
+            checkFolderDestination(resourcesPathExtended.getExperimentPath());
+            String fileFullName = resourcesPathExtended.getExperimentPath() + project + "-" + split + "-experiments-" + counter + ".obj";
+            RandomAccessFile raf = new RandomAccessFile(fileFullName, "rw");
+            FileOutputStream fos = new FileOutputStream(raf.getFD());
+            ObjectOutputStream out = new ObjectOutputStream(fos);
+            System.out.println("Info | framevpm.ExporterExtended.saveExperiment() | Writing experiment object to "
+                    + fileFullName);
+            out.writeObject(experiment);
+            counter++;
+            out.flush();
+            fos.close();
+            return fileFullName;
+        } catch (Exception ex) {
+            System.out.println("Error | framevpm.ExporterExtended.saveExperiments() | " + ex.getStackTrace().toString());
+            throw ex;
+        }
     }
 
     public void saveExperiments(String split, String project, List<Experiment> experiments) throws IOException {
-        checkFolderDestination(resourcesPathExtended.getExperimentPath());
-        RandomAccessFile raf = new RandomAccessFile(resourcesPathExtended.getExperimentPath() + project + "-" + split + "-experiments.obj", "rw");
-        FileOutputStream fos = new FileOutputStream(raf.getFD());
-        ObjectOutputStream out = new ObjectOutputStream(fos);
-        out.writeObject(experiments);
-        out.flush();
-        fos.close();
+        try {
+            checkFolderDestination(resourcesPathExtended.getExperimentPath());
+            int counter = 1;
+            for (Experiment experiment : experiments) {
+                RandomAccessFile raf = new RandomAccessFile(resourcesPathExtended.getExperimentPath()
+                        + project + "-" + split + "-experiments-" + counter + ".obj", "rw");
+                FileOutputStream fos = new FileOutputStream(raf.getFD());
+                ObjectOutputStream out = new ObjectOutputStream(fos);
+                out.writeObject(experiment);
+                counter++;
+                out.flush();
+                fos.close();
+            }
+//            RandomAccessFile raf = new RandomAccessFile(resourcesPathExtended.getExperimentPath() + project + "-" + split + "-experiments.obj", "rw");
+//            FileOutputStream fos = new FileOutputStream(raf.getFD());
+//            ObjectOutputStream out = new ObjectOutputStream(fos);
+//            //out.writeObject(experiments);
+//            System.out.println("Info | framevpm.ExporterExtended.saveExperiments() | Finished writing experiments object to "
+//                    + resourcesPathExtended.getExperimentPath() + project + "-" + split + "-experiments.obj");
+//            out.flush();
+//            System.out.println("Info | framevpm.ExporterExtended.saveExperiments() | Finished flushing experiments object");
+//            fos.close();
+//            System.out.println("Info | framevpm.ExporterExtended.saveExperiments() | Closing read-write connection.");
+        } catch (Exception ex) {
+            System.out.println("Error | framevpm.ExporterExtended.saveExperiments() | " + ex.getStackTrace().toString());
+            throw ex;
+        }
+    }
+
+    public Experiment loadExperiment(String project, String split, int k) {
+        try {
+            String fileFullName = resourcesPathExtended.getExperimentPath() + project + "-" + split + "-experiments-" + k + ".obj";
+            File file = new File(fileFullName);
+            if (file.exists()) {
+                System.out.println("Info | framevpm.ExporterExtended.loadExperiment() | Found saved experiment at " + fileFullName);
+                FileInputStream fileIn = new FileInputStream(file);
+                ObjectInputStream read = new ObjectInputStream(fileIn);
+                Experiment data = (Experiment) read.readObject();
+                read.close();
+                fileIn.close();
+                return data;
+            } else {
+                return null;
+            }
+        } catch (Exception ex) {
+            System.out.println("Error | framevpm.ExporterExtended.loadExperiment() | " + ex.getStackTrace().toString());
+            return null;
+        }
+    }
+
+    public Experiment CheckExperimentExists(String project, String split, int k, String experimentName) {
+        try {
+            String fileFullName = resourcesPathExtended.getExperimentPath() + project + "-" + split + "-experiments-" + k + ".obj";
+            File file = new File(fileFullName);
+            if (file.exists()) {
+                System.out.println("Info | framevpm.ExporterExtended.CheckExperimentExists() | Found saved experiment at " + fileFullName);
+                return (new Experiment(experimentName, fileFullName));
+            } else {
+                return null;
+            }
+        } catch (Exception ex) {
+            System.out.println("Error | framevpm.ExporterExtended.CheckExperimentExists() | " + ex.getStackTrace().toString());
+            return null;
+        }
     }
 
     public List<Experiment> loadExperiments(String project, String split) throws IOException, ClassNotFoundException {
@@ -174,8 +266,12 @@ public class ExporterExtended extends Exporter {
             List<Experiment> data = (List<Experiment>) read.readObject();
             read.close();
             fileIn.close();
+            System.out.println("Info | framevpm.ExporterExtended.loadExperiments() | Found saved experiments at "
+                    + resourcesPathExtended.getExperimentPath() + project + "-" + split + "-experiments.obj");
             return data;
-        } else return null;
+        } else {
+            return null;
+        }
     }
 
     public void saveApproachResult(String project, String split, String model, boolean realistic, ApproachResult approachResult) throws IOException {
@@ -214,6 +310,8 @@ public class ExporterExtended extends Exporter {
             read.close();
             fileIn.close();
             return data;
-        } else return null;
+        } else {
+            return null;
+        }
     }
 }

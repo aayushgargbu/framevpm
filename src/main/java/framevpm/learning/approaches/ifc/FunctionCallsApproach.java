@@ -22,12 +22,19 @@ public class FunctionCallsApproach extends Approach {
 
     @Override
     public void prepareInstances() {
-        for (Experiment experiment : experiments) {
-            ArrayList<Attribute> featureVector = generateFeatureVector(experiment.getTraining());
-            if (featureVector.size() > 1) {
-                Instances training = generateInstances("training", experiment.getTraining(), featureVector);
-                Instances testing = generateInstances("testing", experiment.getTesting(), featureVector);
-                preparedInstances.put(experiment.getName(), new Instances[]{training, testing});
+        for (Experiment ex : experiments) {
+            try {
+                Experiment experiment = ex.loadExperiment(ex.getFullFileName());
+                ArrayList<Attribute> featureVector = generateFeatureVector(experiment.getTraining());
+                if (featureVector.size() > 1) {
+                    Instances training = generateInstances("training", experiment.getTraining(), featureVector);
+                    Instances testing = generateInstances("testing", experiment.getTesting(), featureVector);
+                    preparedInstances.put(experiment.getName(), new Instances[]{training, testing});
+                }
+            } catch (Exception exc) {
+                System.out.println("Error for " + ex.getFullFileName() 
+                        + " | framevpm.learning.approaches.ifc.FunctionCallsApproach.prepareInstances() |");
+                exc.printStackTrace();
             }
         }
     }
@@ -48,7 +55,9 @@ public class FunctionCallsApproach extends Approach {
     private Instance generateInstance(ArrayList<Attribute> featureVector, FileMetaInf fileMetaInf, Map<String, Analysis> stringAnalysisMap) {
         double[] values = new double[featureVector.size()];
         String type = model.correspondingToTypeFile(fileMetaInf.getType());
-        if (type == null) return null;
+        if (type == null) {
+            return null;
+        }
         for (int i = 0; i < featureVector.size() - 1; i++) {
             String name = featureVector.get(i).name();
             values[i] = (int) stringAnalysisMap.get(FileFunctionCalls.NAME).getFeatureMap().getOrDefault(name, 0);
@@ -69,8 +78,8 @@ public class FunctionCallsApproach extends Approach {
             if (type != null) {
                 countTotal.put(type, countTotal.get(type) + 1);
                 Map<String, Integer> FCfoType = countFC.get(type);
-                analysis.get(FileFunctionCalls.NAME).getFeatureMap().keySet().forEach(fc ->
-                        FCfoType.put(fc, FCfoType.getOrDefault(fc, 0) + 1));
+                analysis.get(FileFunctionCalls.NAME).getFeatureMap().keySet().forEach(fc
+                        -> FCfoType.put(fc, FCfoType.getOrDefault(fc, 0) + 1));
             }
         });
         Set<String> functionCalls = new HashSet<>();

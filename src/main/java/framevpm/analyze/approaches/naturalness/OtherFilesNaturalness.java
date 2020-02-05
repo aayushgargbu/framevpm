@@ -34,7 +34,7 @@ public class OtherFilesNaturalness extends Analyze {
 
     @Override
     public ProjectReleaseAnalysed processFeatures() throws IOException {
-        ExecutorService executor = Executors.newFixedThreadPool(Resources.NB_THREADS);
+        ExecutorService executor = Executors.newFixedThreadPool(2);//(Resources.NB_THREADS);
         CompletionService<FileAnalysis> completionService = new ExecutorCompletionService(executor);
         System.out.println("Starting: " + getApproachName());
         try {

@@ -14,13 +14,18 @@ import java.util.List;
 import java.util.Map;
 
 public class CodeChurnDeveloperMetrics extends PerFileAnalysis {
+
     public final static String NAME = "Code Churn Developers";
 
     private GitActions git;
 
     public CodeChurnDeveloperMetrics(ResourcesPathExtended pathExtended, String project) throws IOException, ClassNotFoundException {
         super(pathExtended, project);
-        this.git = new GitActions(ProjectFactory.retrieveProjectInfo(project).getOnlineRepository(), path.getGitPath() + project);
+        try {
+            this.git = new GitActions(ProjectFactory.retrieveProjectInfo(project).getOnlineRepository(), path.getGitPath() + project);
+        } catch (Exception ex) {
+            System.out.println("Error | framevpm.analyze.approaches.filebyfile.CodeChurnDeveloperMetrics.<init>() | " + ex.getStackTrace().toString());
+        }
     }
 
     @Override

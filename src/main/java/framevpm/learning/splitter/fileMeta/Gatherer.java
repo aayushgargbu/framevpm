@@ -22,7 +22,6 @@ public class Gatherer {
     private final TreeMap<Long, String> releases;
     private final Map<String, String> releasesCVE;
 
-
     public Gatherer(ResourcesPathExtended resourcesPathExtended, String project) {
         this.exporter = new ExporterExtended(resourcesPathExtended);
         this.project = project;
@@ -53,16 +52,20 @@ public class Gatherer {
             if (commits.size() > 0) {
                 long timestampLast = 0;
                 Set<String> files = new HashSet<>();
-                for (Commit commit : commits.values()) {
-                    if (commit.getTimestamp() > timestampLast) timestampLast = commit.getTimestamp();
-                    commit.getFixes().forEach(fileFix -> files.add(fileFix.getFileBefore().getFilePath()));
+                for (Object Insidecommits : commits.values()) {
+                    for (Commit commit : ((Map < String, Commit >)Insidecommits).values()) {
+                        if (commit.getTimestamp() > timestampLast) {
+                            timestampLast = commit.getTimestamp();
+                        }
+                        commit.getFixes().forEach(fileFix -> files.add(fileFix.getFileBefore().getFilePath()));
+                    }
                 }
                 List<String> releases = lookForCorrespondingRelease(timestampLast, versions);
                 releases.forEach(release -> {
                     Map<String, VulnerabilityInfo> releaseInfo = projectData.get(release);
                     files.forEach(file -> {
                         if (releaseInfo.containsKey(file)) {
-                            releaseInfo.get(file).update(vuln.getCwe(), vuln.getScore(), vuln.getCve(),vuln.getCreationTime());
+                            releaseInfo.get(file).update(vuln.getCwe(), vuln.getScore(), vuln.getCve(), vuln.getCreationTime());
                         } else {
                             releaseInfo.put(file, new VulnerabilityInfo(vuln.getCwe(), vuln.getScore(), vuln.getCve(), vuln.getCreationTime()));
                         }

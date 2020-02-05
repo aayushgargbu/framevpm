@@ -19,7 +19,8 @@ public class IncludesApproach extends Approach {
 
     @Override
     public void prepareInstances() {
-        for (Experiment experiment : experiments) {
+        for (Experiment ex : experiments) {
+            Experiment experiment = ex.loadExperiment(ex.getFullFileName());
             ArrayList<Attribute> featureVector = generateFeatureVector(experiment.getTraining());
             if (featureVector.size() > 1) {
                 Instances training = generateInstances("training", experiment.getTraining(), featureVector);

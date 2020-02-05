@@ -21,14 +21,14 @@ import java.util.Map;
 @SuppressWarnings("Duplicates")
 public class CodeMetricsApproach extends Approach {
 
-
     public CodeMetricsApproach(List<Experiment> experiments, ClassModel model) {
         super(experiments, model);
     }
 
     public void prepareInstances() {
         ArrayList<Attribute> featureVector = generateFVCodeMetricsALL(model.getClassList());
-        for (Experiment experiment : experiments) {
+        for (Experiment ex : experiments) {
+            Experiment experiment = ex.loadExperiment(ex.getFullFileName());
             Instances training = generateInstances("training", experiment.getTraining(), featureVector);
             Instances testing = generateInstances("testing", experiment.getTesting(), featureVector);
             preparedInstances.put(experiment.getName(), new Instances[]{training, testing});
@@ -52,113 +52,121 @@ public class CodeMetricsApproach extends Approach {
         double[] values = new double[featureVector.size()];
         int i = 0;
         String type = model.correspondingToTypeFile(fileMetaInf.getType());
-        if (type == null) return null;
+        if (type == null) {
+            return null;
+        }
         for (Attribute attribute : featureVector) {
-            switch (attribute.name()) {
-                case "loc":
-                    values[i] = (int) stringAnalysisMap.get(SimpleCodeMetrics.NAME).getFeatureMap().get("loc");
-                    break;
-                case "preprocessorLines":
-                    values[i] = (int) stringAnalysisMap.get(SimpleCodeMetrics.NAME).getFeatureMap().get("preprocessorLines");
-                    break;
-                case "commentDensity":
-                    values[i] = (float) stringAnalysisMap.get(SimpleCodeMetrics.NAME).getFeatureMap().get("commentDensity");
-                    break;
-                case "countDeclFunction":
-                    values[i] = (int) stringAnalysisMap.get(SimpleCodeMetrics.NAME).getFeatureMap().get("countDeclFunction");
-                    break;
-                case "countDeclVariable":
-                    values[i] = (int) stringAnalysisMap.get(SimpleCodeMetrics.NAME).getFeatureMap().get("countDeclVariable");
-                    break;
+            try {
+                switch (attribute.name()) {
+                    case "loc":
+                        values[i] = (int) stringAnalysisMap.get(SimpleCodeMetrics.NAME).getFeatureMap().get("loc");
+                        break;
+                    case "preprocessorLines":
+                        values[i] = (int) stringAnalysisMap.get(SimpleCodeMetrics.NAME).getFeatureMap().get("preprocessorLines");
+                        break;
+                    case "commentDensity":
+                        values[i] = (float) stringAnalysisMap.get(SimpleCodeMetrics.NAME).getFeatureMap().get("commentDensity");
+                        break;
+                    case "countDeclFunction":
+                        values[i] = (int) stringAnalysisMap.get(SimpleCodeMetrics.NAME).getFeatureMap().get("countDeclFunction");
+                        break;
+                    case "countDeclVariable":
+                        values[i] = (int) stringAnalysisMap.get(SimpleCodeMetrics.NAME).getFeatureMap().get("countDeclVariable");
+                        break;
 
-                case "ccAverage":
-                    values[i] = (double) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("ccAverage");
-                    break;
-                case "ccMax":
-                    values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("ccMax");
-                    break;
-                case "ccSum":
-                    values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("ccSum");
-                    break;
-                case "sccMax":
-                    values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("sccMax");
-                    break;
-                case "sccAverage":
-                    values[i] = (double) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("sccAverage");
-                    break;
-                case "sccSum":
-                    values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("sccSum");
-                    break;
-                case "mccMax":
-                    values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("mccMax");
-                    break;
-                case "mccAverage":
-                    values[i] = (double) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("mccAverage");
-                    break;
-                case "mccSum":
-                    values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("mccSum");
-                    break;
-                case "ecMax":
-                    values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("ecMax");
-                    break;
-                case "ecAverage":
-                    values[i] = (double) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("ecAverage");
-                    break;
-                case "ecSum":
-                    values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("ecSum");
-                    break;
+                    case "ccAverage":
+                        values[i] = (double) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("ccAverage");
+                        break;
+                    case "ccMax":
+                        values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("ccMax");
+                        break;
+                    case "ccSum":
+                        values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("ccSum");
+                        break;
+                    case "sccMax":
+                        values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("sccMax");
+                        break;
+                    case "sccAverage":
+                        values[i] = (double) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("sccAverage");
+                        break;
+                    case "sccSum":
+                        values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("sccSum");
+                        break;
+                    case "mccMax":
+                        values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("mccMax");
+                        break;
+                    case "mccAverage":
+                        values[i] = (double) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("mccAverage");
+                        break;
+                    case "mccSum":
+                        values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("mccSum");
+                        break;
+                    case "ecMax":
+                        values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("ecMax");
+                        break;
+                    case "ecAverage":
+                        values[i] = (double) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("ecAverage");
+                        break;
+                    case "ecSum":
+                        values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("ecSum");
+                        break;
 
-                case "maxNestingMax":
-                    values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("maxNestingMax");
-                    break;
-                case "maxNestingAverage":
-                    values[i] = (double) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("maxNestingAverage");
-                    break;
-                case "maxNestingSum":
-                    values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("maxNestingSum");
-                    break;
+                    case "maxNestingMax":
+                        values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("maxNestingMax");
+                        break;
+                    case "maxNestingAverage":
+                        values[i] = (double) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("maxNestingAverage");
+                        break;
+                    case "maxNestingSum":
+                        values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("maxNestingSum");
+                        break;
 
-                case "fanInMax":
-                    values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("fanInMax");
-                    break;
-                case "fanInAverage":
-                    values[i] = (double) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("fanInAverage");
-                    break;
-                case "fanInSum":
-                    values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("fanInSum");
-                    break;
-                case "fanOutMax":
-                    values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("fanOutMax");
-                    break;
-                case "fanOutAverage":
-                    values[i] = (double) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("fanOutAverage");
-                    break;
-                case "fanOutSum":
-                    values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("fanOutSum");
-                    break;
+                    case "fanInMax":
+                        values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("fanInMax");
+                        break;
+                    case "fanInAverage":
+                        values[i] = (double) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("fanInAverage");
+                        break;
+                    case "fanInSum":
+                        values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("fanInSum");
+                        break;
+                    case "fanOutMax":
+                        values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("fanOutMax");
+                        break;
+                    case "fanOutAverage":
+                        values[i] = (double) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("fanOutAverage");
+                        break;
+                    case "fanOutSum":
+                        values[i] = (int) stringAnalysisMap.get(ComplexityMetrics.NAME).getFeatureMap().get("fanOutSum");
+                        break;
 
-
-                case "linesAdded":
-                    values[i] = (int) stringAnalysisMap.get(CodeChurnDeveloperMetrics.NAME).getFeatureMap().get("linesAdded");
-                    break;
-                case "linesModified":
-                    values[i] = (int) stringAnalysisMap.get(CodeChurnDeveloperMetrics.NAME).getFeatureMap().get("linesModified");
-                    break;
-                case "linesDeleted":
-                    values[i] = (int) stringAnalysisMap.get(CodeChurnDeveloperMetrics.NAME).getFeatureMap().get("linesDeleted");
-                    break;
-                case "numberOfChanges":
-                    values[i] = (int) stringAnalysisMap.get(CodeChurnDeveloperMetrics.NAME).getFeatureMap().get("numberOfChanges");
-                    break;
-                case "totalNumberOfDeveloper":
-                    values[i] = (int) stringAnalysisMap.get(CodeChurnDeveloperMetrics.NAME).getFeatureMap().get("totalNumberOfDeveloper");
-                    break;
-                case "currentNumberOfDeveloper":
-                    values[i] = (int) stringAnalysisMap.get(CodeChurnDeveloperMetrics.NAME).getFeatureMap().get("currentNumberOfDeveloper");
-                    break;
-                case "theClass":
-                    values[i] = model.getClassList().indexOf(type);
-                    break;
+                    case "linesAdded":
+                        values[i] = (int) stringAnalysisMap.get(CodeChurnDeveloperMetrics.NAME).getFeatureMap().get("linesAdded");
+                        break;
+                    case "linesModified":
+                        values[i] = (int) stringAnalysisMap.get(CodeChurnDeveloperMetrics.NAME).getFeatureMap().get("linesModified");
+                        break;
+                    case "linesDeleted":
+                        values[i] = (int) stringAnalysisMap.get(CodeChurnDeveloperMetrics.NAME).getFeatureMap().get("linesDeleted");
+                        break;
+                    case "numberOfChanges":
+                        values[i] = (int) stringAnalysisMap.get(CodeChurnDeveloperMetrics.NAME).getFeatureMap().get("numberOfChanges");
+                        break;
+                    case "totalNumberOfDeveloper":
+                        values[i] = (int) stringAnalysisMap.get(CodeChurnDeveloperMetrics.NAME).getFeatureMap().get("totalNumberOfDeveloper");
+                        break;
+                    case "currentNumberOfDeveloper":
+                        values[i] = (int) stringAnalysisMap.get(CodeChurnDeveloperMetrics.NAME).getFeatureMap().get("currentNumberOfDeveloper");
+                        break;
+                    case "theClass":
+                        values[i] = model.getClassList().indexOf(type);
+                        break;
+                }
+            } catch (Exception ex) {
+                System.out.println("Error in Switch Case for " + attribute.name() 
+                        + " | framevpm.learning.approaches.codeMetrics.CodeMetricsApproach.generateInstance() | " 
+                        + ex.getStackTrace().toString());
+                values[i] = -1;
             }
             i++;
         }
