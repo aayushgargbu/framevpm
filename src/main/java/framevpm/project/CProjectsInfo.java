@@ -63,15 +63,15 @@ public class CProjectsInfo {
 //        versions.put(1452434514L, "v4.4");
 //        versions.put(1457900945L, "v4.5");
 //        versions.put(1463319803L, "v4.6");
-//        versions.put(1469355842L, "v4.7");
-//        versions.put(1475418280L, "v4.8");
+        versions.put(1469355842L, "v4.7");
+        versions.put(1475418280L, "v4.8");
 //        versions.put(1481451482L, "v4.9");
 //        versions.put(1487511248L, "v4.10");
 //        versions.put(1493574480L, "v4.11");
 //        versions.put(1499004431L, "v4.12");
 //        versions.put(1504439788L, "v4.13");
-        versions.put(1510479981L, "v4.14");
-        versions.put(1517142041L, "v4.15");
+//        versions.put(1510479981L, "v4.14");
+//        versions.put(1517142041L, "v4.15");
         return versions;
     }
 
@@ -186,8 +186,8 @@ public class CProjectsInfo {
 //        versions.put("3.17", "v3.17");
 //        versions.put("3.18", "v3.18");
 //        versions.put("3.19", "v3.19");
-//        versions.put("4.0", "v4.0");
-//        versions.put("4.1", "v4.1");
+        versions.put("4.0", "v4.0");
+        versions.put("4.1", "v4.1");
 //        versions.put("4.2", "v4.2");
 //        versions.put("4.3", "v4.3");
 //        versions.put("4.4", "v4.4");
@@ -200,8 +200,8 @@ public class CProjectsInfo {
 //        versions.put("4.11", "v4.11");
 //        versions.put("4.12", "v4.12");
 //        versions.put("4.13", "v4.13");
-        versions.put("4.14", "v4.14");
-        versions.put("4.15", "v4.15");
+//        versions.put("4.14", "v4.14");
+//        versions.put("4.15", "v4.15");
         return versions;
     }
 

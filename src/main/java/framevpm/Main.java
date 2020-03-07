@@ -60,6 +60,7 @@ public class Main {
                 Approach[] approaches = {
                     //new NaturalnessAndCM(experimentList, model),
                     //new PureNaturalness(experimentList, model),
+                    
                     new CodeMetricsApproach(experimentList, classModel),
                     new IncludesApproach(experimentList, classModel),
                     new FunctionCallsApproach(experimentList, classModel),
@@ -70,15 +71,26 @@ public class Main {
                     try {
                         approach.prepareInstances();
                         System.out.println("Info | framevpm.Main.main() | Finished preparing instances for " + approach.getApproachName());
+                        
+                        LinkedList<String> classifierNames = new LinkedList();
+                        //classifierNames.add("Logistic");
+                        classifierNames.add("RandomForest");
+                        //classifierNames.add("J48");
+                        //classifierNames.add("Ada");
+                        //classifierNames.add("SVM");
+                        //classifierNames.add("KNear");
+                        //classifierNames.add("MLPerceptron");
+                        
+                        for(String classifierName: classifierNames){
+                            ApproachResult result = approach.runWith(classifierName, true);
+                            System.out.println("Info | framevpm.Main.main() | Finished getting approach results from " + approach.getApproachName());
 
-                        ApproachResult result = approach.runWith("RandomForest", true);
-                        System.out.println("Info | framevpm.Main.main() | Finished getting approach results from " + approach.getApproachName());
+                            exporterExtended.saveApproachResult(project.getName(), experimentSplitter.getName(), classModel.getName(), true, result);
+                            System.out.println("Info | framevpm.Main.main() | Finished saving approach results from " + approach.getApproachName());
 
-                        exporterExtended.saveApproachResult(project.getName(), experimentSplitter.getName(), classModel.getName(), true, result);
-                        System.out.println("Info | framevpm.Main.main() | Finished saving approach results from " + approach.getApproachName());
-
-                        csvExporter.exportResultToCSV(project.getName(), experimentSplitter.getName(), classModel, true, result);
-                        System.out.println("Info | framevpm.Main.main() | Finished writing approach results from " + approach.getApproachName());
+                            csvExporter.exportResultToCSV(project.getName(), experimentSplitter.getName(), classModel, true, result);
+                            System.out.println("Info | framevpm.Main.main() | Finished writing approach results from " + approach.getApproachName());
+                        }
                     } catch (Exception ex) {
                         System.out.println("Error | framevpm.Main.main() | " + approach.getApproachName() + " | " + ex.getStackTrace().toString());
                     }

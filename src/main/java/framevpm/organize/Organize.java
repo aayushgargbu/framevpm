@@ -155,8 +155,12 @@ public class Organize {
             Commit comm = null;
             for (Object obj : commits.values()) {
                 Map<String, Commit> probCommits = (Map<String, Commit>) obj;
-                comm = new ArrayList<>(probCommits.values()).get(0);
-                break;
+                if(probCommits != null){
+                    if(probCommits.isEmpty() == false){
+                        comm = new ArrayList<>(probCommits.values()).get(0);
+                        break;
+                    }
+                }
             }
 
             Commit commit = comm; //new Commit(hash, message, timestamp, fixes);
