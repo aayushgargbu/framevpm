@@ -32,7 +32,7 @@ public class FunctionCallsApproach extends Approach {
                     preparedInstances.put(experiment.getName(), new Instances[]{training, testing});
                 }
             } catch (Exception exc) {
-                System.out.println("Error for " + ex.getFullFileName() 
+                System.out.println("Error for " + ex.getFullFileName()
                         + " | framevpm.learning.approaches.ifc.FunctionCallsApproach.prepareInstances() |");
                 exc.printStackTrace();
             }
@@ -43,10 +43,15 @@ public class FunctionCallsApproach extends Approach {
         Instances instances = new Instances(type, featureVector, set.size());
         instances.setClassIndex(featureVector.size() - 1);
         set.forEach((fileMetaInf, stringAnalysisMap) -> {
+            try{
             Instance instance = generateInstance(featureVector, fileMetaInf, stringAnalysisMap);
             if (instance != null) {
                 instance.setDataset(instances);
                 instances.add(instance);
+            }
+            } catch (Exception ex){
+                System.out.println("Error | framevpm.learning.approaches.ifc.FunctionCallsApproach.generateInstances() | Skiping");
+                ex.printStackTrace();
             }
         });
         return instances;
@@ -74,12 +79,17 @@ public class FunctionCallsApproach extends Approach {
             countTotal.put(mod, 0);
         }
         experiment.forEach((file, analysis) -> {
-            String type = model.correspondingToTypeFile(file.getType());
-            if (type != null) {
-                countTotal.put(type, countTotal.get(type) + 1);
-                Map<String, Integer> FCfoType = countFC.get(type);
-                analysis.get(FileFunctionCalls.NAME).getFeatureMap().keySet().forEach(fc
-                        -> FCfoType.put(fc, FCfoType.getOrDefault(fc, 0) + 1));
+            try {
+                String type = model.correspondingToTypeFile(file.getType());
+                if (type != null) {
+                    countTotal.put(type, countTotal.get(type) + 1);
+                    Map<String, Integer> FCfoType = countFC.get(type);
+                    analysis.get(FileFunctionCalls.NAME).getFeatureMap().keySet().forEach(fc
+                            -> FCfoType.put(fc, FCfoType.getOrDefault(fc, 0) + 1));
+                }
+            } catch (Exception ex) {
+                System.out.println("Error | framevpm.learning.approaches.ifc.FunctionCallsApproach.generateFeatureVector() | Skipping");
+                ex.printStackTrace();
             }
         });
         Set<String> functionCalls = new HashSet<>();

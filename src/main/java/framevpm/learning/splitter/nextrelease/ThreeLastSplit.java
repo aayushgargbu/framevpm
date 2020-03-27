@@ -17,7 +17,10 @@ import java.util.Map;
 
 public class ThreeLastSplit extends ReleaseSplitter {
 
+    /*
     public final static String NAME = "3LastReleaseGen";
+    */
+    public final static String NAME = "1LastReleaseGen";
 
     public ThreeLastSplit(ResourcesPathExtended pathExtended, String project) throws IOException, ClassNotFoundException {
         super(pathExtended, project);
@@ -72,7 +75,10 @@ public class ThreeLastSplit extends ReleaseSplitter {
                             FileMetaInf metaInf = new FileMetaInf(release.getKey(), file.getKey(), file.getValue().getType(), vulnerabilityInfo);
                             testing.put(metaInf, analysis);
                         }
+                        /*
                         if (counter == 3) {
+                        */
+                        if (counter == 1) {
                             training = new LinkedHashMap<>();
 //                        training.putAll(oldreleases.get(0));
 //                        training.putAll(oldreleases.get(1));

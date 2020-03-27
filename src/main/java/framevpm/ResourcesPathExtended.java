@@ -1,6 +1,7 @@
 package framevpm;
 
 import data7.ResourcesPath;
+import framevpm.project.CProjectsInfo;
 
 public class ResourcesPathExtended extends ResourcesPath {
 
@@ -15,11 +16,11 @@ public class ResourcesPathExtended extends ResourcesPath {
     public ResourcesPathExtended(String path) {
         super(path);
         this.bugDatasetPath = getSavingPath() + "bugdatasets/";
-        this.organizeData = getSavingPath() + "organizeData/";
-        this.analysisPath = getSavingPath() + "analysisData/";
-        this.versionPath = getSavingPath() + "versions/";
-        this.statPath = getSavingPath() + "stats/";
-        this.experimentPath = getSavingPath() +"experiments/";
+        this.organizeData = getSavingPath() + "organizeData/" + CProjectsInfo.focussedVersion + "/";
+        this.analysisPath = getSavingPath() + "analysisData/" + CProjectsInfo.focussedVersion + "/";
+        this.versionPath = getSavingPath() + "versions/" + CProjectsInfo.focussedVersion + "/";
+        this.statPath = getSavingPath() + "stats/" + CProjectsInfo.focussedVersion + "/";
+        this.experimentPath = getSavingPath() +"experiments/" + CProjectsInfo.focussedVersion + "/";
     }
 
     public String getBugDatasetPath() {

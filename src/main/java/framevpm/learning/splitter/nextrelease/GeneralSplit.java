@@ -73,6 +73,7 @@ public class GeneralSplit extends ReleaseSplitter {
                         Experiment experiment = new Experiment(currentrelease, training, testing);
                         String fileFullName = exporter.saveExperiment(NAME, project, experiment, anotherCounter);
                         experiments.add(new Experiment(experiment.getName(), fileFullName));
+                        //experiments.add(experiment);
                         anotherCounter++;
                         System.out.println("Another counter | New value " + anotherCounter);
                     }

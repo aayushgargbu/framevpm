@@ -28,74 +28,90 @@ import java.text.ParseException;
 import java.util.LinkedList;
 import java.util.List;
 
+import framevpm.project.CProjectsInfo;
+
 public class Main {
 
     public static void main(String[] args) {
-        ResourcesPathExtended pathExtended = new ResourcesPathExtended("C:/GitHub/framevpm/repository/"); //("/home/matthieu/vpm/");
-        ExporterExtended exporterExtended = new ExporterExtended(pathExtended);
-        CSVExporter csvExporter = new CSVExporter(pathExtended);
-        Project[] projects = new Project[]{//CProjects.SYSTEMD, CProjects.OPEN_SSL,
+        Project[] projects = new Project[]{
+            //CProjects.SYSTEMD, 
+            //CProjects.OPEN_SSL, 
             //CProjects.WIRESHARK, 
             CProjects.LINUX_KERNEL};
         for (Project project : projects) {
             try {
-                //Training
-                ///*
-                new Importer(pathExtended).updateOrCreateDatasetFor(project);
-                System.gc();
-                //new BugCollector(pathExtended).updateOrCreateBugDataset(project.getName());
-                //System.gc();
-                new Organize(pathExtended, project.getName()).balance(false);//(true);
-                System.gc();
-                new Application(pathExtended, project.getName()).runAll();
-                System.gc();
-                //*/
-                //Testing
-                ///*
-                ClassModel classModel = new VulNotVul();
-                ReleaseSplitter experimentSplitter = new GeneralSplit(pathExtended, project.getName());
-                //ReleaseSplitter experimentSplitter = new ThreeLastSplit(pathExtended, project.getName());
-                List<Experiment> experimentList = experimentSplitter.generateExperiment();
-                System.out.println("Info | framevpm.Main.main() | Finished generating experiments");
-                Approach[] approaches = {
-                    //new NaturalnessAndCM(experimentList, model),
-                    //new PureNaturalness(experimentList, model),
-                    
-                    new CodeMetricsApproach(experimentList, classModel),
-                    new IncludesApproach(experimentList, classModel),
-                    new FunctionCallsApproach(experimentList, classModel),
-                    new BagOfWordsApproach(experimentList, classModel)
-                };
-                System.out.println("Info | framevpm.Main.main() | Finished creating approaches");
-                for (Approach approach : approaches) {
-                    try {
-                        approach.prepareInstances();
-                        System.out.println("Info | framevpm.Main.main() | Finished preparing instances for " + approach.getApproachName());
-                        
-                        LinkedList<String> classifierNames = new LinkedList();
-                        //classifierNames.add("Logistic");
-                        classifierNames.add("RandomForest");
-                        //classifierNames.add("J48");
-                        //classifierNames.add("Ada");
-                        //classifierNames.add("SVM");
-                        //classifierNames.add("KNear");
-                        //classifierNames.add("MLPerceptron");
-                        
-                        for(String classifierName: classifierNames){
-                            ApproachResult result = approach.runWith(classifierName, true);
-                            System.out.println("Info | framevpm.Main.main() | Finished getting approach results from " + approach.getApproachName());
+                String mainRepositoryFullName = "C:/GitHub/framevpm/repository/";
+                for (String focussedVersion : CProjectsInfo.focussedVersions) {
+                    CProjectsInfo.focussedVersion = focussedVersion;
+                    ResourcesPathExtended pathExtended = new ResourcesPathExtended(mainRepositoryFullName); //("/home/matthieu/vpm/");
 
-                            exporterExtended.saveApproachResult(project.getName(), experimentSplitter.getName(), classModel.getName(), true, result);
-                            System.out.println("Info | framevpm.Main.main() | Finished saving approach results from " + approach.getApproachName());
+                    //Training
+                    ///*
+                    new Importer(pathExtended).updateOrCreateDatasetFor(project);
+                    System.gc();
+                    //new BugCollector(pathExtended).updateOrCreateBugDataset(project.getName());
+                    //System.gc();
+                    new Organize(pathExtended, project.getName()).balance(false);//(true);
+                    System.gc();
+                    new Application(pathExtended, project.getName()).runAll();
+                    System.gc();
+                    //*/
+                    //Testing
+                    ///*
+                    ClassModel classModel = new VulNotVul();
+                    ReleaseSplitter experimentSplitter = new GeneralSplit(pathExtended, project.getName());
+                    //ReleaseSplitter experimentSplitter = new ThreeLastSplit(pathExtended, project.getName());
+                    List<Experiment> expList = experimentSplitter.generateExperiment();
+                    List<Experiment> experimentList = experimentSplitter.generateRealisticExperiment(expList);
+                    //experimentList = realisticExperimentList;
+                    System.out.println("Info | framevpm.Main.main() | Finished generating experiments");
+                    Approach[] approaches = {
+                        //new NaturalnessAndCM(experimentList, model),
+                        //new PureNaturalness(experimentList, model),
 
-                            csvExporter.exportResultToCSV(project.getName(), experimentSplitter.getName(), classModel, true, result);
-                            System.out.println("Info | framevpm.Main.main() | Finished writing approach results from " + approach.getApproachName());
+                        new CodeMetricsApproach(experimentList, classModel),
+                        new IncludesApproach(experimentList, classModel),
+                        new FunctionCallsApproach(experimentList, classModel),
+                        new BagOfWordsApproach(experimentList, classModel)
+                    };
+                    System.out.println("Info | framevpm.Main.main() | Finished creating approaches");
+                    for (Approach approach : approaches) {
+                        try {
+                            approach.prepareInstances();
+                            System.out.println("Info | framevpm.Main.main() | Finished preparing instances for " + approach.getApproachName());
+
+                            LinkedList<String> classifierNames = new LinkedList();
+                            classifierNames.add("RandomForest");
+                            //classifierNames.add("Logistic");
+                            //classifierNames.add("J48");
+                            //classifierNames.add("Ada");
+                            //classifierNames.add("SVM");
+                            //classifierNames.add("KNear");
+                            //classifierNames.add("MLPerceptron");
+
+                            for (String classifierName : classifierNames) {
+                                /*
+                                ApproachResult result = approach.runWith(classifierName, true);
+                                */
+                                ApproachResult result = approach.runWith(classifierName, false);
+                                System.out.println("Info | framevpm.Main.main() | Finished getting approach results from " + approach.getApproachName());
+
+                                //ExporterExtended exporterExtended = new ExporterExtended(pathExtended);
+                                //exporterExtended.saveApproachResult(project.getName(), experimentSplitter.getName(), classModel.getName(), true, result);
+                                //System.out.println("Info | framevpm.Main.main() | Finished saving approach results from " + approach.getApproachName());
+                                CSVExporter csvExporter = new CSVExporter(pathExtended);
+                                /*
+                                csvExporter.exportResultToCSV(project.getName(), experimentSplitter.getName(), classModel, false, result);
+                                */
+                                csvExporter.exportResultToCSV(project.getName(), experimentSplitter.getName(), classModel, true, result);
+                                System.out.println("Info | framevpm.Main.main() | Finished writing approach results from " + approach.getApproachName());
+                            }
+                        } catch (Exception ex) {
+                            System.out.println("Error | framevpm.Main.main() | " + approach.getApproachName() + " | " + ex.getStackTrace().toString());
                         }
-                    } catch (Exception ex) {
-                        System.out.println("Error | framevpm.Main.main() | " + approach.getApproachName() + " | " + ex.getStackTrace().toString());
                     }
+                    //*/
                 }
-                //*/
             } catch (Exception e) {
                 e.printStackTrace();
             }
