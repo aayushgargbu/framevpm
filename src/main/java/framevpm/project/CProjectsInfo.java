@@ -8,8 +8,7 @@ public class CProjectsInfo {
 
     public static String focussedVersion;
 
-    public static String[] focussedVersions = {
-        /*
+    public static String[] focussedLinuxKernelVersions = {
         "v3.0",
         "v3.1",
         "v3.2",
@@ -31,7 +30,6 @@ public class CProjectsInfo {
         "v3.18",
         "v3.19",
         "v4.0",
-        */
         "v4.1",
         "v4.2",
         "v4.3",
@@ -46,6 +44,16 @@ public class CProjectsInfo {
         "v4.12",
         "v4.13",
         "v4.14"
+    };
+
+    public static String[] focussedWiresharkVersions = {
+        "wireshark-1.8.0", "wireshark-1.10.0", "v1.11.0", "v1.12.0", "v1.99.0",
+        "v2.0.0", "v2.1.0", "v2.2.0", "v2.4.0"
+    };
+
+    public static String[] focussedOpenSSLVersions = {
+        "OpenSSL_0_9_3", "OpenSSL_0_9_4", "OpenSSL_0_9_5", "OpenSSL_0_9_6", "OpenSSL_0_9_7",
+        "OpenSSL_0_9_8", "OpenSSL_1_0_0", "OpenSSL_1_0_1", "OpenSSL_1_0_2"
     };
 
     public static final TreeMap<Long, String> LINUX_VERSIONS() {
@@ -356,44 +364,135 @@ public class CProjectsInfo {
 
     public static final TreeMap<Long, String> WIRESHARK_VERSION() {
         TreeMap<Long, String> versions = new TreeMap<>();
-        versions.put(905909955L, "ethereal-0.3.15");
-        versions.put(911433534L, "ethereal-0.5.0");
-        versions.put(925500716L, "ethereal-0.6.0");
-        versions.put(933717600L, "ethereal-0.7.0");
-        versions.put(946508400L, "ethereal-0.8.0");
-        versions.put(1009148400L, "ethereal-0.9.0");
-        versions.put(1071270000L, "ethereal-0.10.0");
-        versions.put(1145829600L, "ethereal-0.99.0");
-        versions.put(1206745200L, "wireshark-1.0.0");
-        versions.put(1245103200L, "wireshark-1.2.0");
-        versions.put(1283119200L, "wireshark-1.4.0");
-        versions.put(1307397600L, "wireshark-1.6.0");
-        versions.put(1340229600L, "wireshark-1.8.0");
-        versions.put(1370383200L, "wireshark-1.10.0");
-        versions.put(1392159600L, "v1.11.0");
-        versions.put(1406757600L, "v1.12.0");
-        versions.put(1412632800L, "v1.99.0");
-        versions.put(1447801200L, "v2.0.0");
-        versions.put(1465336800L, "v2.1.0");
-        versions.put(1473199200L, "v2.2.0");
-        versions.put(1500415200L, "v2.4.0");
-        versions.put(1517871600L, "v2.5.0");
-
+        switch (focussedVersion) {
+            case "ethereal-0.3.15":
+                versions.put(905909955L, "ethereal-0.3.15");
+                versions.put(911433534L, "ethereal-0.5.0");
+                break;
+            case "ethereal-0.5.0":
+                versions.put(911433534L, "ethereal-0.5.0");
+                versions.put(925500716L, "ethereal-0.6.0");
+                break;
+            case "ethereal-0.6.0":
+                versions.put(925500716L, "ethereal-0.6.0");
+                versions.put(933717600L, "ethereal-0.7.0");
+                break;
+            case "ethereal-0.7.0":
+                versions.put(933717600L, "ethereal-0.7.0");
+                versions.put(946508400L, "ethereal-0.8.0");
+                break;
+            case "ethereal-0.8.0":
+                versions.put(946508400L, "ethereal-0.8.0");
+                versions.put(1009148400L, "ethereal-0.9.0");
+                break;
+            case "ethereal-0.9.0":
+                versions.put(1009148400L, "ethereal-0.9.0");
+                versions.put(1071270000L, "ethereal-0.10.0");
+                break;
+            case "ethereal-0.10.0":
+                versions.put(1071270000L, "ethereal-0.10.0");
+                versions.put(1145829600L, "ethereal-0.99.0");
+                break;
+            case "ethereal-0.99.0":
+                versions.put(1145829600L, "ethereal-0.99.0");
+                versions.put(1206745200L, "wireshark-1.0.0");
+                break;
+            case "wireshark-1.0.0":
+                versions.put(1206745200L, "wireshark-1.0.0");
+                versions.put(1245103200L, "wireshark-1.2.0");
+                break;
+            case "wireshark-1.2.0":
+                versions.put(1245103200L, "wireshark-1.2.0");
+                versions.put(1283119200L, "wireshark-1.4.0");
+                break;
+            case "wireshark-1.4.0":
+                versions.put(1283119200L, "wireshark-1.4.0");
+                versions.put(1307397600L, "wireshark-1.6.0");
+                break;
+            case "wireshark-1.6.0":
+                versions.put(1307397600L, "wireshark-1.6.0");
+                versions.put(1340229600L, "wireshark-1.8.0");
+                break;
+            case "wireshark-1.8.0":
+                versions.put(1340229600L, "wireshark-1.8.0");
+                versions.put(1370383200L, "wireshark-1.10.0");
+                break;
+            case "wireshark-1.10.0":
+                versions.put(1370383200L, "wireshark-1.10.0");
+                versions.put(1392159600L, "v1.11.0");
+                break;
+            case "v1.11.0":
+                versions.put(1392159600L, "v1.11.0");
+                versions.put(1406757600L, "v1.12.0");
+                break;
+            case "v1.12.0":
+                versions.put(1406757600L, "v1.12.0");
+                versions.put(1412632800L, "v1.99.0");
+                break;
+            case "v1.99.0":
+                versions.put(1412632800L, "v1.99.0");
+                versions.put(1447801200L, "v2.0.0");
+                break;
+            case "v2.0.0":
+                versions.put(1447801200L, "v2.0.0");
+                versions.put(1465336800L, "v2.1.0");
+                break;
+            case "v2.1.0":
+                versions.put(1465336800L, "v2.1.0");
+                versions.put(1473199200L, "v2.2.0");
+                break;
+            case "v2.2.0":
+                versions.put(1473199200L, "v2.2.0");
+                versions.put(1500415200L, "v2.4.0");
+                break;
+            case "v2.4.0":
+                versions.put(1500415200L, "v2.4.0");
+                versions.put(1517871600L, "v2.5.0");
+                break;
+        }
         return versions;
     }
 
     public static final TreeMap<Long, String> OPENSSL_VERSION() {
         TreeMap<Long, String> versions = new TreeMap<>();
-        versions.put(927496800L, "OpenSSL_0_9_3");
-        versions.put(934149600L, "OpenSSL_0_9_4");
-        versions.put(959205600L, "OpenSSL_0_9_5");
-        versions.put(971128800L, "OpenSSL_0_9_6");
-        versions.put(1041289200L, "OpenSSL_0_9_7");
-        versions.put(1120514400L, "OpenSSL_0_9_8");
-        versions.put(1269813600L, "OpenSSL_1_0_0");
-        versions.put(1331679600L, "OpenSSL_1_0_1");
-        versions.put(1421881200L, "OpenSSL_1_0_2");
-        versions.put(1472076000L, "OpenSSL_1_1_0");
+        switch (focussedVersion) {
+            case "OpenSSL_0_9_3":
+                versions.put(927496800L, "OpenSSL_0_9_3");
+                versions.put(934149600L, "OpenSSL_0_9_4");
+                break;
+            case "OpenSSL_0_9_4":
+                versions.put(934149600L, "OpenSSL_0_9_4");
+                versions.put(959205600L, "OpenSSL_0_9_5");
+                break;
+            case "OpenSSL_0_9_5":
+                versions.put(959205600L, "OpenSSL_0_9_5");
+                versions.put(971128800L, "OpenSSL_0_9_6");
+                break;
+            case "OpenSSL_0_9_6":
+                versions.put(971128800L, "OpenSSL_0_9_6");
+                versions.put(1041289200L, "OpenSSL_0_9_7");
+                break;
+            case "OpenSSL_0_9_7":
+                versions.put(1041289200L, "OpenSSL_0_9_7");
+                versions.put(1120514400L, "OpenSSL_0_9_8");
+                break;
+            case "OpenSSL_0_9_8":
+                versions.put(1120514400L, "OpenSSL_0_9_8");
+                versions.put(1269813600L, "OpenSSL_1_0_0");
+                break;
+            case "OpenSSL_1_0_0":
+                versions.put(1269813600L, "OpenSSL_1_0_0");
+                versions.put(1331679600L, "OpenSSL_1_0_1");
+                break;
+            case "OpenSSL_1_0_1":
+                versions.put(1331679600L, "OpenSSL_1_0_1");
+                versions.put(1421881200L, "OpenSSL_1_0_2");
+                break;
+            case "OpenSSL_1_0_2":
+                versions.put(1421881200L, "OpenSSL_1_0_2");
+                versions.put(1472076000L, "OpenSSL_1_1_0");
+                break;
+        }
         return versions;
     }
 
@@ -437,6 +536,46 @@ public class CProjectsInfo {
         versions.put("v4.15", "v4.14");
         return versions;
     }
+    
+    public static final Map<String, String> WIRESHARK_CVE_PREVIOUS_VERSIONS() {
+        HashMap<String, String> versions = new HashMap<>();
+        versions.put("ethereal-0.5.0", "ethereal-0.3.15");
+        versions.put("ethereal-0.6.0", "ethereal-0.5.0");
+        versions.put("ethereal-0.7.0", "ethereal-0.6.0");
+        versions.put("ethereal-0.8.0", "ethereal-0.7.0");
+        versions.put("ethereal-0.9.0", "ethereal-0.8.0");
+        versions.put("ethereal-0.10.0", "ethereal-0.9.0");
+        versions.put("ethereal-0.99.0", "ethereal-0.10.0");
+        versions.put("wireshark-1.0.0", "ethereal-0.99.0");
+        versions.put("wireshark-1.2.0", "wireshark-1.0.0");
+        versions.put("wireshark-1.4.0", "wireshark-1.2.0");
+        versions.put("wireshark-1.6.0", "wireshark-1.4.0");
+        versions.put("wireshark-1.8.0", "wireshark-1.6.0");
+        versions.put("wireshark-1.10.0", "wireshark-1.8.0");
+        versions.put("v1.11.0", "wireshark-1.10.0");
+        versions.put("v1.12.0", "v1.11.0");
+        versions.put("v1.99.0", "v1.12.0");
+        versions.put("v2.0.0", "v1.99.0");
+        versions.put("v2.1.0", "v2.0.0");
+        versions.put("v2.2.0", "v2.1.0");
+        versions.put("v2.4.0", "v2.2.0");
+        versions.put("v2.5.0", "v2.4.0");
+        return versions;
+    }
+    
+    public static final Map<String, String> OPENSSL_CVE_PREVIOUS_VERSIONS() {
+        HashMap<String, String> versions = new HashMap<>();
+        versions.put("OpenSSL_0_9_4", "OpenSSL_0_9_3");
+        versions.put("OpenSSL_0_9_5", "OpenSSL_0_9_4");
+        versions.put("OpenSSL_0_9_6", "OpenSSL_0_9_5");
+        versions.put("OpenSSL_0_9_7", "OpenSSL_0_9_6");
+        versions.put("OpenSSL_0_9_8", "OpenSSL_0_9_7");
+        versions.put("OpenSSL_1_0_0", "OpenSSL_0_9_8");
+        versions.put("OpenSSL_1_0_1", "OpenSSL_1_0_0");
+        versions.put("OpenSSL_1_0_2", "OpenSSL_1_0_1");
+        versions.put("OpenSSL_1_1_0", "OpenSSL_1_0_2");
+        return versions;
+    }
 
     public static final Map<String, String> SYSTEMD_CVE_VERSION() {
         Map<String, String> versions = new HashMap<>();
@@ -456,44 +595,135 @@ public class CProjectsInfo {
 
     public static final Map<String, String> WIRESHARK_CVE_VERSION() {
         Map<String, String> versions = new HashMap<>();
-        versions.put("0.3.15", "ethereal-0.3.15");
-        versions.put("0.5.0", "ethereal-0.5.0");
-        versions.put("0.6.0", "ethereal-0.6.0");
-        versions.put("0.7.0", "ethereal-0.7.0");
-        versions.put("0.8.0", "ethereal-0.8.0");
-        versions.put("0.9.0", "ethereal-0.9.0");
-        versions.put("0.10.0", "ethereal-0.10.0");
-        versions.put("0.99.0", "ethereal-0.99.0");
-        versions.put("1.0.0", "wireshark-1.0.0");
-        versions.put("1.2.0", "wireshark-1.2.0");
-        versions.put("1.4.0", "wireshark-1.4.0");
-        versions.put("1.6.0", "wireshark-1.6.0");
-        versions.put("1.8.0", "wireshark-1.8.0");
-        versions.put("1.10.0", "wireshark-1.10.0");
-        versions.put("1.11.0", "v1.11.0");
-        versions.put("1.12.0", "v1.12.0");
-        versions.put("1.99.0", "v1.99.0");
-        versions.put("2.0.0", "v2.0.0");
-        versions.put("2.1.0", "v2.1.0");
-        versions.put("2.2.0", "v2.2.0");
-        versions.put("2.4.0", "v2.4.0");
-        versions.put("2.5.0", "v2.5.0");
-
+        switch (focussedVersion) {
+            case "ethereal-0.3.15":
+                versions.put("0.3.15", "ethereal-0.3.15");
+                versions.put("0.5.0", "ethereal-0.5.0");
+                break;
+            case "ethereal-0.5.0":
+                versions.put("0.5.0", "ethereal-0.5.0");
+                versions.put("0.6.0", "ethereal-0.6.0");
+                break;
+            case "ethereal-0.6.0":
+                versions.put("0.6.0", "ethereal-0.6.0");
+                versions.put("0.7.0", "ethereal-0.7.0");
+                break;
+            case "ethereal-0.7.0":
+                versions.put("0.7.0", "ethereal-0.7.0");
+                versions.put("0.8.0", "ethereal-0.8.0");
+                break;
+            case "ethereal-0.8.0":
+                versions.put("0.8.0", "ethereal-0.8.0");
+                versions.put("0.9.0", "ethereal-0.9.0");
+                break;
+            case "ethereal-0.9.0":
+                versions.put("0.9.0", "ethereal-0.9.0");
+                versions.put("0.10.0", "ethereal-0.10.0");
+                break;
+            case "ethereal-0.10.0":
+                versions.put("0.10.0", "ethereal-0.10.0");
+                versions.put("0.99.0", "ethereal-0.99.0");
+                break;
+            case "ethereal-0.99.0":
+                versions.put("0.99.0", "ethereal-0.99.0");
+                versions.put("1.0.0", "wireshark-1.0.0");
+                break;
+            case "wireshark-1.0.0":
+                versions.put("1.0.0", "wireshark-1.0.0");
+                versions.put("1.2.0", "wireshark-1.2.0");
+                break;
+            case "wireshark-1.2.0":
+                versions.put("1.2.0", "wireshark-1.2.0");
+                versions.put("1.4.0", "wireshark-1.4.0");
+                break;
+            case "wireshark-1.4.0":
+                versions.put("1.4.0", "wireshark-1.4.0");
+                versions.put("1.6.0", "wireshark-1.6.0");
+                break;
+            case "wireshark-1.6.0":
+                versions.put("1.6.0", "wireshark-1.6.0");
+                versions.put("1.8.0", "wireshark-1.8.0");
+                break;
+            case "wireshark-1.8.0":
+                versions.put("1.8.0", "wireshark-1.8.0");
+                versions.put("1.10.0", "wireshark-1.10.0");
+                break;
+            case "wireshark-1.10.0":
+                versions.put("1.10.0", "wireshark-1.10.0");
+                versions.put("1.11.0", "v1.11.0");
+                break;
+            case "v1.11.0":
+                versions.put("1.11.0", "v1.11.0");
+                versions.put("1.12.0", "v1.12.0");
+                break;
+            case "v1.12.0":
+                versions.put("1.12.0", "v1.12.0");
+                versions.put("1.99.0", "v1.99.0");
+                break;
+            case "v1.99.0":
+                versions.put("1.99.0", "v1.99.0");
+                versions.put("2.0.0", "v2.0.0");
+                break;
+            case "v2.0.0":
+                versions.put("2.0.0", "v2.0.0");
+                versions.put("2.1.0", "v2.1.0");
+                break;
+            case "v2.1.0":
+                versions.put("2.1.0", "v2.1.0");
+                versions.put("2.2.0", "v2.2.0");
+                break;
+            case "v2.2.0":
+                versions.put("2.2.0", "v2.2.0");
+                versions.put("2.4.0", "v2.4.0");
+                break;
+            case "v2.4.0":
+                versions.put("2.4.0", "v2.4.0");
+                versions.put("2.5.0", "v2.5.0");
+                break;
+        }
         return versions;
     }
 
     public static final Map<String, String> OPENSSL_CVE_VERSION() {
         Map<String, String> versions = new HashMap<>();
-        versions.put("0.9.3", "OpenSSL_0_9_3");
-        versions.put("0.9.4", "OpenSSL_0_9_4");
-        versions.put("0.9.5", "OpenSSL_0_9_5");
-        versions.put("0.9.6", "OpenSSL_0_9_6");
-        versions.put("0.9.7", "OpenSSL_0_9_7");
-        versions.put("0.9.8", "OpenSSL_0_9_8");
-        versions.put("1.0.0", "OpenSSL_1_0_0");
-        versions.put("1.0.1", "OpenSSL_1_0_1");
-        versions.put("1.0.2", "OpenSSL_1_0_2");
-        versions.put("1.1.0", "OpenSSL_1_1_0");
+        switch (focussedVersion) {
+            case "OpenSSL_0_9_3":
+                versions.put("0.9.3", "OpenSSL_0_9_3");
+                versions.put("0.9.4", "OpenSSL_0_9_4");
+                break;
+            case "OpenSSL_0_9_4":
+                versions.put("0.9.4", "OpenSSL_0_9_4");
+                versions.put("0.9.5", "OpenSSL_0_9_5");
+                break;
+            case "OpenSSL_0_9_5":
+                versions.put("0.9.5", "OpenSSL_0_9_5");
+                versions.put("0.9.6", "OpenSSL_0_9_6");
+                break;
+            case "OpenSSL_0_9_6":
+                versions.put("0.9.6", "OpenSSL_0_9_6");
+                versions.put("0.9.7", "OpenSSL_0_9_7");
+                break;
+            case "OpenSSL_0_9_7":
+                versions.put("0.9.7", "OpenSSL_0_9_7");
+                versions.put("0.9.8", "OpenSSL_0_9_8");
+                break;
+            case "OpenSSL_0_9_8":
+                versions.put("0.9.8", "OpenSSL_0_9_8");
+                versions.put("1.0.0", "OpenSSL_1_0_0");
+                break;
+            case "OpenSSL_1_0_0":
+                versions.put("1.0.0", "OpenSSL_1_0_0");
+                versions.put("1.0.1", "OpenSSL_1_0_1");
+                break;
+            case "OpenSSL_1_0_1":
+                versions.put("1.0.1", "OpenSSL_1_0_1");
+                versions.put("1.0.2", "OpenSSL_1_0_2");
+                break;
+            case "OpenSSL_1_0_2":
+                versions.put("1.0.2", "OpenSSL_1_0_2");
+                versions.put("1.1.0", "OpenSSL_1_1_0");
+                break;
+        }
         return versions;
     }
 
@@ -633,6 +863,92 @@ public class CProjectsInfo {
         versions.put("4.13", "v4.13");
         versions.put("4.14", "v4.14");
         versions.put("4.15", "v4.15");
+        return versions;
+    }
+    
+    public static final TreeMap<Long, String> WIRESHARK_VERSION() {
+        TreeMap<Long, String> versions = new TreeMap<>();
+        versions.put(905909955L, "ethereal-0.3.15");
+        versions.put(911433534L, "ethereal-0.5.0");
+        versions.put(925500716L, "ethereal-0.6.0");
+        versions.put(933717600L, "ethereal-0.7.0");
+        versions.put(946508400L, "ethereal-0.8.0");
+        versions.put(1009148400L, "ethereal-0.9.0");
+        versions.put(1071270000L, "ethereal-0.10.0");
+        versions.put(1145829600L, "ethereal-0.99.0");
+        versions.put(1206745200L, "wireshark-1.0.0");
+        versions.put(1245103200L, "wireshark-1.2.0");
+        versions.put(1283119200L, "wireshark-1.4.0");
+        versions.put(1307397600L, "wireshark-1.6.0");
+        versions.put(1340229600L, "wireshark-1.8.0");
+        versions.put(1370383200L, "wireshark-1.10.0");
+        versions.put(1392159600L, "v1.11.0");
+        versions.put(1406757600L, "v1.12.0");
+        versions.put(1412632800L, "v1.99.0");
+        versions.put(1447801200L, "v2.0.0");
+        versions.put(1465336800L, "v2.1.0");
+        versions.put(1473199200L, "v2.2.0");
+        versions.put(1500415200L, "v2.4.0");
+        versions.put(1517871600L, "v2.5.0");
+
+        return versions;
+    }
+
+    public static final TreeMap<Long, String> OPENSSL_VERSION() {
+        TreeMap<Long, String> versions = new TreeMap<>();
+        versions.put(927496800L, "OpenSSL_0_9_3");
+        versions.put(934149600L, "OpenSSL_0_9_4");
+        versions.put(959205600L, "OpenSSL_0_9_5");
+        versions.put(971128800L, "OpenSSL_0_9_6");
+        versions.put(1041289200L, "OpenSSL_0_9_7");
+        versions.put(1120514400L, "OpenSSL_0_9_8");
+        versions.put(1269813600L, "OpenSSL_1_0_0");
+        versions.put(1331679600L, "OpenSSL_1_0_1");
+        versions.put(1421881200L, "OpenSSL_1_0_2");
+        versions.put(1472076000L, "OpenSSL_1_1_0");
+        return versions;
+    }
+    
+    public static final Map<String, String> WIRESHARK_CVE_VERSION() {
+        Map<String, String> versions = new HashMap<>();
+        versions.put("0.3.15", "ethereal-0.3.15");
+        versions.put("0.5.0", "ethereal-0.5.0");
+        versions.put("0.6.0", "ethereal-0.6.0");
+        versions.put("0.7.0", "ethereal-0.7.0");
+        versions.put("0.8.0", "ethereal-0.8.0");
+        versions.put("0.9.0", "ethereal-0.9.0");
+        versions.put("0.10.0", "ethereal-0.10.0");
+        versions.put("0.99.0", "ethereal-0.99.0");
+        versions.put("1.0.0", "wireshark-1.0.0");
+        versions.put("1.2.0", "wireshark-1.2.0");
+        versions.put("1.4.0", "wireshark-1.4.0");
+        versions.put("1.6.0", "wireshark-1.6.0");
+        versions.put("1.8.0", "wireshark-1.8.0");
+        versions.put("1.10.0", "wireshark-1.10.0");
+        versions.put("1.11.0", "v1.11.0");
+        versions.put("1.12.0", "v1.12.0");
+        versions.put("1.99.0", "v1.99.0");
+        versions.put("2.0.0", "v2.0.0");
+        versions.put("2.1.0", "v2.1.0");
+        versions.put("2.2.0", "v2.2.0");
+        versions.put("2.4.0", "v2.4.0");
+        versions.put("2.5.0", "v2.5.0");
+
+        return versions;
+    }
+
+    public static final Map<String, String> OPENSSL_CVE_VERSION() {
+        Map<String, String> versions = new HashMap<>();
+        versions.put("0.9.3", "OpenSSL_0_9_3");
+        versions.put("0.9.4", "OpenSSL_0_9_4");
+        versions.put("0.9.5", "OpenSSL_0_9_5");
+        versions.put("0.9.6", "OpenSSL_0_9_6");
+        versions.put("0.9.7", "OpenSSL_0_9_7");
+        versions.put("0.9.8", "OpenSSL_0_9_8");
+        versions.put("1.0.0", "OpenSSL_1_0_0");
+        versions.put("1.0.1", "OpenSSL_1_0_1");
+        versions.put("1.0.2", "OpenSSL_1_0_2");
+        versions.put("1.1.0", "OpenSSL_1_1_0");
         return versions;
     }
      */

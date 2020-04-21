@@ -34,7 +34,7 @@ public class Application {
         if (args.length == 1) {
             ResourcesPathExtended pathExtended = new ResourcesPathExtended(args[0]);
             ExporterExtended exporterExtended = new ExporterExtended(pathExtended);
-            CSVExporter csvExporter = new CSVExporter(pathExtended);
+            CSVExporter csvExporter = new CSVExporter(pathExtended, "wireshark");
             Project[] projects = new Project[]{
                     CProjects.OPEN_SSL,
                     CProjects.WIRESHARK,

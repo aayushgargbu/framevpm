@@ -18,12 +18,22 @@ import java.util.Map;
 public class CSVExporter {
 
     private final String rpath;
-    private Map<String, String> LINUX_CVE_PREVIOUS_VERSIONS;
+    private Map<String, String> CVE_PREVIOUS_VERSIONS;
 
-    public CSVExporter(ResourcesPathExtended resourcesPathExtended) {
+    public CSVExporter(ResourcesPathExtended resourcesPathExtended, String ProjectName) {
         this.rpath = resourcesPathExtended.getStatPath();
         checkFolderDestination(rpath);
-        LINUX_CVE_PREVIOUS_VERSIONS = CProjectsInfo.LINUX_CVE_PREVIOUS_VERSIONS();
+        switch (ProjectName) {
+            case "linux_kernel":
+                CVE_PREVIOUS_VERSIONS = CProjectsInfo.LINUX_CVE_PREVIOUS_VERSIONS();
+                break;
+            case "wireshark":
+                CVE_PREVIOUS_VERSIONS = CProjectsInfo.WIRESHARK_CVE_PREVIOUS_VERSIONS();
+                break;
+            case "openssl":
+                CVE_PREVIOUS_VERSIONS = CProjectsInfo.OPENSSL_CVE_PREVIOUS_VERSIONS();
+                break;
+        }
     }
 
     public void exportResultToCSV(String project, String split, ClassModel model, boolean realistic, ApproachResult approachResult) throws IOException {
@@ -59,10 +69,10 @@ public class CSVExporter {
 
         writerom.writeNext(header);
 
-        approachResult.getResultMap().forEach((experiment, experimentResultMap) ->
-                experimentResultMap.forEach((file, experimentresult) -> {
+        approachResult.getResultMap().forEach((experiment, experimentResultMap)
+                -> experimentResultMap.forEach((file, experimentresult) -> {
                     String[] line = new String[size];
-                    String previousVersion = LINUX_CVE_PREVIOUS_VERSIONS.get(experiment);
+                    String previousVersion = CVE_PREVIOUS_VERSIONS.get(experiment);
                     line[0] = previousVersion;
                     line[1] = file;
                     line[2] = experimentresult.getFileMetaInf().getType().name();
