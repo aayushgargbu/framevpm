@@ -12,12 +12,12 @@ import framevpm.organize.model.ReleaseData;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
 public abstract class PerFileAnalysis extends Analyze {
-
 
     public PerFileAnalysis(ResourcesPathExtended pathExtended, String project) throws IOException, ClassNotFoundException {
         super(pathExtended, project);
@@ -29,11 +29,18 @@ public abstract class PerFileAnalysis extends Analyze {
         CompletionService<FileAnalysis> completionService = new ExecutorCompletionService(executor);
         System.out.println("Starting: " + getApproachName());
         try {
+            Boolean loadedFixesForTrainingSet = false;
             for (String release : releases) {
                 ReleaseData releaseData = projectData.getOrCreateRelease(release);
                 if (releaseData.getFileMap().size() != 0) {
                     System.out.println("Starting: " + release);
-                    Map<String, String> files = loadVersion(release);
+                    Map<String, String> files = new HashMap();
+                    if (loadedFixesForTrainingSet == false) {
+                        files = loadVersion(project, release);
+                        loadedFixesForTrainingSet = true;
+                    } else {
+                        files = loadVersion(release);
+                    }
                     ReleaseAnalysis releaseAnalysis = exporter.loadReleaseAnalysis(project, release);
                     if (releaseAnalysis == null) {
                         releaseAnalysis = new ReleaseAnalysis(release);//projectAnalysis.getOrCreateReleaseAnalysis(release);

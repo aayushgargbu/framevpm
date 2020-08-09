@@ -39,19 +39,21 @@ public class CSVExporter {
     public void exportResultToCSV(String project, String split, ClassModel model, boolean realistic, ApproachResult approachResult) throws IOException {
         String path = rpath;
         checkFolderDestination(path);
-        path += project + "/";
-        checkFolderDestination(path);
+        //path += project + "/";
+        //checkFolderDestination(path);
         path += split + "/";
         checkFolderDestination(path);
         path += model.getName() + "/";
         checkFolderDestination(path);
         path += approachResult.getApproach() + "/";
         checkFolderDestination(path);
+        /*
         if (realistic) {
             path += "Realistic/";
-        }
+        }*/
         checkFolderDestination(path);
-        CSVWriter writerom = new CSVWriter(new FileWriter(new File(path + approachResult.getClassifier() + "-" + approachResult.isSmote() + ".csv"), false));
+//        CSVWriter writerom = new CSVWriter(new FileWriter(new File(path + approachResult.getClassifier() + "-" + approachResult.isSmote() + ".csv"), false));
+        CSVWriter writerom = new CSVWriter(new FileWriter(new File(path + approachResult.getClassifier() + ".csv"), false));
 
         List<String> listClass = model.getClassList();
         int size = 7 + listClass.size();
