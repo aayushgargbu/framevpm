@@ -16,11 +16,12 @@ import java.util.List;
 import java.util.Map;
 
 public class ThreeLastSplit extends ReleaseSplitter {
-
+    
     /*
     public final static String NAME = "3LastReleaseGen";
     */
-    public final static String NAME = "1LastReleaseGen";
+    public final static Integer countLastReleases = 1;
+    public final static String NAME = countLastReleases + "LastReleaseGen";
 
     public ThreeLastSplit(ResourcesPathExtended pathExtended, String project) throws IOException, ClassNotFoundException {
         super(pathExtended, project);
@@ -78,7 +79,7 @@ public class ThreeLastSplit extends ReleaseSplitter {
                         /*
                         if (counter == 3) {
                         */
-                        if (counter == 1) {
+                        if (counter == countLastReleases) {
                             training = new LinkedHashMap<>();
 //                        training.putAll(oldreleases.get(0));
 //                        training.putAll(oldreleases.get(1));

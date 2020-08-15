@@ -88,8 +88,8 @@ public class Main {
                 //Testing
                 ///*
                 ClassModel classModel = new VulNotVul();
-                ReleaseSplitter experimentSplitter = new GeneralSplit(pathExtended, project.getName());
-                //ReleaseSplitter experimentSplitter = new ThreeLastSplit(pathExtended, project.getName());
+                //ReleaseSplitter experimentSplitter = new GeneralSplit(pathExtended, project.getName());
+                ReleaseSplitter experimentSplitter = new ThreeLastSplit(pathExtended, project.getName());
                 List<Experiment> experimentList = experimentSplitter.generateExperiment();
                 if (realistic) {
                     experimentList = experimentSplitter.generateRealisticExperiment(experimentList);
