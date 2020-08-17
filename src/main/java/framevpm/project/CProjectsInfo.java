@@ -9,6 +9,7 @@ public class CProjectsInfo {
     public static String focussedVersion;
 
     public static String[] focussedLinuxKernelVersions = {
+        /*
         "v3.0",
         "v3.1",
         "v3.2",
@@ -35,6 +36,7 @@ public class CProjectsInfo {
         "v4.3",
         "v4.4",
         "v4.5",
+        */
         "v4.6",
         "v4.7",
         "v4.8",
@@ -42,8 +44,10 @@ public class CProjectsInfo {
         "v4.10",
         "v4.11",
         "v4.12",
+        /*
         "v4.13",
         "v4.14"
+        */
     };
 
     public static String[] focussedWiresharkVersions = {
@@ -58,6 +62,7 @@ public class CProjectsInfo {
 
     public static final TreeMap<Long, String> LINUX_VERSIONS() {
         TreeMap<Long, String> versions = new TreeMap<>();
+        /*
         if (focussedVersion == "v3.0") {
             versions.put(1311268649L, "v3.0");
             versions.put(1319440251L, "v3.1");
@@ -162,34 +167,50 @@ public class CProjectsInfo {
             versions.put(1457900945L, "v4.5");
             versions.put(1463319803L, "v4.6");
         }
+        */
         if (focussedVersion == "v4.6") {
             versions.put(1463319803L, "v4.6");
             versions.put(1469355842L, "v4.7");
+            versions.put(1475418280L, "v4.8");
+            versions.put(1481451482L, "v4.9");
         }
         if (focussedVersion == "v4.7") {
             versions.put(1469355842L, "v4.7");
             versions.put(1475418280L, "v4.8");
+            versions.put(1481451482L, "v4.9");
+            versions.put(1487511248L, "v4.10");
         }
         if (focussedVersion == "v4.8") {
             versions.put(1475418280L, "v4.8");
             versions.put(1481451482L, "v4.9");
+            versions.put(1487511248L, "v4.10");
+            versions.put(1493574480L, "v4.11");
         }
         if (focussedVersion == "v4.9") {
             versions.put(1481451482L, "v4.9");
             versions.put(1487511248L, "v4.10");
+            versions.put(1493574480L, "v4.11");
+            versions.put(1499004431L, "v4.12");
         }
         if (focussedVersion == "v4.10") {
             versions.put(1487511248L, "v4.10");
             versions.put(1493574480L, "v4.11");
+            versions.put(1499004431L, "v4.12");
+            versions.put(1504439788L, "v4.13");
         }
         if (focussedVersion == "v4.11") {
             versions.put(1493574480L, "v4.11");
             versions.put(1499004431L, "v4.12");
+            versions.put(1504439788L, "v4.13");
+            versions.put(1510479981L, "v4.14");
         }
         if (focussedVersion == "v4.12") {
             versions.put(1499004431L, "v4.12");
             versions.put(1504439788L, "v4.13");
+            versions.put(1510479981L, "v4.14");
+            versions.put(1517142041L, "v4.15");
         }
+        /*
         if (focussedVersion == "v4.13") {
             versions.put(1504439788L, "v4.13");
             versions.put(1510479981L, "v4.14");
@@ -198,11 +219,13 @@ public class CProjectsInfo {
             versions.put(1510479981L, "v4.14");
             versions.put(1517142041L, "v4.15");
         }
+        */
         return versions;
     }
 
     public static final Map<String, String> LINUX_CVE_VERSIONS() {
         HashMap<String, String> versions = new HashMap<>();
+        /*
         if (focussedVersion == "v3.0") {
             versions.put("3.0", "v3.0");
             versions.put("3.1", "v3.1");
@@ -307,34 +330,50 @@ public class CProjectsInfo {
             versions.put("4.5", "v4.5");
             versions.put("4.6", "v4.6");
         }
+        */
         if (focussedVersion == "v4.6") {
             versions.put("4.6", "v4.6");
             versions.put("4.7", "v4.7");
+            versions.put("4.8", "v4.8");
+            versions.put("4.9", "v4.9");
         }
         if (focussedVersion == "v4.7") {
             versions.put("4.7", "v4.7");
             versions.put("4.8", "v4.8");
+            versions.put("4.9", "v4.9");
+            versions.put("4.10", "v4.10");
         }
         if (focussedVersion == "v4.8") {
             versions.put("4.8", "v4.8");
             versions.put("4.9", "v4.9");
+            versions.put("4.10", "v4.10");
+            versions.put("4.11", "v4.11");
         }
         if (focussedVersion == "v4.9") {
             versions.put("4.9", "v4.9");
             versions.put("4.10", "v4.10");
+            versions.put("4.11", "v4.11");
+            versions.put("4.12", "v4.12");
         }
         if (focussedVersion == "v4.10") {
             versions.put("4.10", "v4.10");
             versions.put("4.11", "v4.11");
+            versions.put("4.12", "v4.12");
+            versions.put("4.13", "v4.13");
         }
         if (focussedVersion == "v4.11") {
             versions.put("4.11", "v4.11");
             versions.put("4.12", "v4.12");
+            versions.put("4.13", "v4.13");
+            versions.put("4.14", "v4.14");
         }
         if (focussedVersion == "v4.12") {
             versions.put("4.12", "v4.12");
             versions.put("4.13", "v4.13");
+            versions.put("4.14", "v4.14");
+            versions.put("4.15", "v4.15");
         }
+        /*
         if (focussedVersion == "v4.13") {
             versions.put("4.13", "v4.13");
             versions.put("4.14", "v4.14");
@@ -343,6 +382,7 @@ public class CProjectsInfo {
             versions.put("4.14", "v4.14");
             versions.put("4.15", "v4.15");
         }
+        */
         return versions;
     }
 

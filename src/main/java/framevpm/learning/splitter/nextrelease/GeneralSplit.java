@@ -16,7 +16,7 @@ import java.util.*;
 
 public class GeneralSplit extends ReleaseSplitter {
 
-    public final static String NAME = "nextReleaseGen";
+    public final static String NAME = "Last3ReleaseGen";
 
     public GeneralSplit(ResourcesPathExtended pathExtended, String project) throws IOException, ClassNotFoundException {
         super(pathExtended, project);
